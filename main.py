@@ -8,7 +8,8 @@ from time import time
 import os
 import random
 from sklearn.model_selection import train_test_split
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # PLS DO NOT EXCEED THIS TIME LIMIT
 MAXIMIZED_RUNNINGTIME=1000
@@ -46,7 +47,7 @@ if os.path.exists(args.model_output_path) is False:
     os.mkdir(args.model_output_path)
 
 if args.model_nick_name is None:
-    setattr(args, "model_nick_name", f"OPT:{args.optimizer}-E:{args.epochs}-H:{args.hidden_size}-S:{args.scale_factor}")
+    setattr(args, "model_nick_name", f"OPT_{args.optimizer}-E_{args.epochs}-H_{args.hidden_size}-S_{args.scale_factor}")
 
 '''
 1. Load the dataset
