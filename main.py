@@ -1,3 +1,4 @@
+from ast import arg
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Flatten
@@ -123,7 +124,9 @@ model = Sequential()
 # Build up a neural network to achieve better performance.
 # Hint: Deeper networks (i.e., more hidden layers) and a different activation function may achieve better results.
 model.add(Flatten())
-model.add(Dense(args.hidden_size, activation="relu")) # first layer
+model.add(Flatten(args.hidden_size, activation="relu")) # first layer
+model.add(Flatten(args.hidden_size, activation="relu")) # second layer
+
 
 ###########################MAGIC ENDS HERE##########################
 model.add(Dense(num_labels)) # last layer
@@ -139,7 +142,7 @@ history = model.fit(x_train, y_train,
                     validation_data=(x_valid, y_valid),
                     epochs=args.epochs,
                     batch_size=512)
-print(history.history)
+print("History", history.history)
 # Report Results on the test datasets
 test_loss, test_acc = model.evaluate(x_test,  y_test, verbose=2)
 print("\nTest Accuracy: ", test_acc)
@@ -165,8 +168,28 @@ import matplotlib.pyplot as plt
 
 ###########################MAGIC ENDS HERE##########################
 
+# Create and plot confusion matrix using matplotlib
+cm = confusion_matrix(y_test, y_test_predict)
+plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+plt.title("Confusion Matrix")
+plt.colorbar()
+tick_marks = np.arange(len(class_names))
+plt.xticks(tick_marks, class_names, rotation=45)
+plt.yticks(tick_marks, class_names)
+plt.tight_layout()
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+plt.show()
 
+# Report precision and recall for all 10 classes
+print("Precision: ", precision_score(y_test, y_test_predict, average=None))
+# plot the precision
+plt.plot(precision_score(y_test, y_test_predict, average=None))
+plt.title("Precision")
+plt.show()
 
-
-
-
+print("Recall: ", recall_score(y_test, y_test_predict, average=None))
+# plot the recall
+plt.plot(recall_score(y_test, y_test_predict, average=None))
+plt.title("Recall")
+plt.show()
