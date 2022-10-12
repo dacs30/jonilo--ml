@@ -27,9 +27,10 @@ parser = ArgumentParser()
 # Hint: Large Epochs will achieve better performance.
 # Hint: Large Hidden Size will achieve better performance.
 parser.add_argument("--optimizer", default='sgd', type=str)
-parser.add_argument("--epochs", default=10, type=int)
-parser.add_argument("--hidden_size", default=32, type=int)
-parser.add_argument("--scale_factor", default=10, type=float)
+parser.add_argument("--epochs", default=100, type=int)
+parser.add_argument("--hidden_size", default=255, type=int)
+parser.add_argument("--scale_factor", default=255, type=float)
+parser.add_argument("--batch_size", default=32, type=int)
 ###########################MAGIC ENDS HERE##########################
 
 parser.add_argument("--is_pic_vis", action="store_true")
@@ -104,6 +105,7 @@ if args.is_pic_vis:
 x_train = x_train / args.scale_factor
 x_valid = x_valid / args.scale_factor
 x_test = x_test / args.scale_factor
+#  all the image pixels are in a range from 1-256 (8-bit)
 
 ###########################MAGIC ENDS HERE##########################
 
@@ -124,8 +126,9 @@ model = Sequential()
 # Build up a neural network to achieve better performance.
 # Hint: Deeper networks (i.e., more hidden layers) and a different activation function may achieve better results.
 model.add(Flatten())
-model.add(Flatten(args.hidden_size, activation="relu")) # first layer
-model.add(Flatten(args.hidden_size, activation="relu")) # second layer
+model.add(Dense(args.hidden_size, activation="relu")) # first layer
+model.add(Dense(args.hidden_size, activation="relu")) # second layer
+model.add(Dense(args.hidden_size, activation="relu")) # second layer
 
 
 ###########################MAGIC ENDS HERE##########################
