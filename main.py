@@ -213,7 +213,7 @@ plt.xlabel('epoch')
 plt.legend(['train', 'validation'], loc='upper left')
 plt.show()
 
-#  print the image of the misclassified images
+#  print the image of the misclassified images change the index to see different images
 misclassified_idx = np.where(y_test_predict != y_test)[0]
 i = np.random.choice(misclassified_idx)
 plt.imshow(x_test[i])
